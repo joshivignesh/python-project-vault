@@ -1,0 +1,66 @@
+{
+  "name": "Vignesh Joshi",
+  "title": "Senior Software Engineer",
+  "contact": {
+    "email": "joshi.vignesh@gmail.com",
+    "phone": "+91 98765 43210",
+    "location": "Bangalore, India",
+    "github": "github.com/joshivignesh",
+    "linkedin": "linkedin.com/in/joshivignesh"
+  },
+  "summary": "Software engineer with 5+ years of experience building scalable backend systems and cloud-native applications. Passionate about clean code, DevOps practices, and solving real problems with simple solutions.",
+  "experience": [
+    {
+      "role": "Senior Software Engineer",
+      "company": "Acme Corp",
+      "location": "Bangalore, India",
+      "duration": "Jan 2022 – Present",
+      "points": [
+        "Led migration of monolithic services to microservices on Kubernetes, reducing deployment time by 60%",
+        "Designed and built REST APIs in Python (FastAPI) serving 2M+ requests per day",
+        "Mentored a team of 4 junior engineers through code reviews and weekly knowledge sessions"
+      ]
+    },
+    {
+      "role": "Software Engineer",
+      "company": "Tech Solutions Ltd",
+      "location": "Chennai, India",
+      "duration": "Jun 2019 – Dec 2021",
+      "points": [
+        "Built data pipelines using Apache Kafka and PostgreSQL for real-time analytics",
+        "Reduced API response time by 40% through query optimisation and Redis caching",
+        "Delivered a customer-facing dashboard in React + Django ahead of schedule"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.E. Computer Science",
+      "institution": "Anna University",
+      "year": "2019",
+      "grade": "8.7 CGPA"
+    }
+  ],
+  "skills": {
+    "Languages": ["Python", "C#", "JavaScript", "SQL", "Bash"],
+    "Frameworks": ["FastAPI", "Django", "ASP.NET Core", "React"],
+    "DevOps & Cloud": ["Kubernetes", "Docker", "Terraform", "AWS", "GitHub Actions"],
+    "Databases": ["PostgreSQL", "MongoDB", "Redis"]
+  },
+  "certifications": [
+    "AWS Certified Solutions Architect – Associate (2023)",
+    "Certified Kubernetes Administrator (CKA) (2024)"
+  ],
+  "projects": [
+    {
+      "name": "k8s-mastery-guide",
+      "description": "Open-source Kubernetes reference with production-grade manifests, Helm charts, and a full troubleshooting guide.",
+      "link": "github.com/joshivignesh/k8s-mastery-guide"
+    },
+    {
+      "name": "AI Resume Builder",
+      "description": "CLI tool that generates a styled PDF resume from a JSON file using Python and ReportLab.",
+      "link": "github.com/joshivignesh/python-project-vault"
+    }
+  ]
+}
