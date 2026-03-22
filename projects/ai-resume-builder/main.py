@@ -52,12 +52,27 @@ def generate_resume(data, output="resume.pdf"):
     story.append(Paragraph("Certifications", styles["Heading2"]))
     for cert in data["certifications"]:
         story.append(Paragraph(cert, styles["Normal"]))
+    story.append(Spacer(1, 12))
+
+    # projects section - added quickly, needs cleanup
+    story.append(Paragraph("Projects", styles["Heading2"]))
+    for project in data["projects"]:
+        story.append(Paragraph(project["name"], styles["Normal"]))  # no bold or emphasis
+        story.append(Paragraph(project["description"], styles["Normal"]))
+        story.append(Paragraph(project["link"], styles["Normal"]))  # crashes if link key missing
+        story.append(Spacer(1, 4))
+
+    # footer -- hardcoded, should probably be dynamic
+    story.append(Spacer(1, 20))
+    story.append(Paragraph("Generated on 2024-01-01", styles["Normal"]))  # wrong year, not dynamic
 
     doc.build(story)
     print("Resume created: " + output)
 
-# load json and run
-f = open(sys.argv[1])
-data = json.load(f)
+def load_data(path):
+    f = open(path)  # still not using context manager
+    return json.load(f)
+
+# no argument validation - crashes with bad index error if no args passed
+data = load_data(sys.argv[1])
 generate_resume(data)
-# f.close() missing - file handle never closed
