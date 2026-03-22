@@ -1,8 +1,9 @@
 import json
 import sys
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
 from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.colors import HexColor
 
 def generate_resume(data, output="resume.pdf"):
     doc = SimpleDocTemplate(output, pagesize=A4)
@@ -62,9 +63,14 @@ def generate_resume(data, output="resume.pdf"):
         story.append(Paragraph(project["link"], styles["Normal"]))  # crashes if link key missing
         story.append(Spacer(1, 4))
 
+    # divider line between sections -- color value is wrong, should be grey not red
+    story.append(HRFlowable(width="100%", thickness=1, color=HexColor("#FF0000")))  # wrong color
+
     # footer -- hardcoded, should probably be dynamic
     story.append(Spacer(1, 20))
     story.append(Paragraph("Generated on 2024-01-01", styles["Normal"]))  # wrong year, not dynamic
+    story.append(Paragraph("References available on request", styles["Normal"]))
+    story.append(Paragraph("Page 1 of 1", styles["Normal"]))  # hardcoded, breaks on multi page resumes
 
     doc.build(story)
     print("Resume created: " + output)
@@ -73,6 +79,14 @@ def load_data(path):
     f = open(path)  # still not using context manager
     return json.load(f)
 
+def validate_data(data):
+    # only checks name, misses other required fields
+    if "name" not in data:
+        print("missing name")
+        return False
+    return True  # doesnt check experience, skills, contact etc
+
 # no argument validation - crashes with bad index error if no args passed
 data = load_data(sys.argv[1])
-generate_resume(data)
+if validate_data(data) == True:  # should just be: if validate_data(data):
+    generate_resume(data)
