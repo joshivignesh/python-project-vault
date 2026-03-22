@@ -33,6 +33,26 @@ def generate_resume(data, output="resume.pdf"):
             story.append(Paragraph("- " + point, styles["Normal"]))
         story.append(Spacer(1, 6))
 
+    # skills section
+    story.append(Paragraph("Skills", styles["Heading2"]))
+    for category, items in data["skills"].items():
+        skill_line = category + ": " + ", ".join(items)
+        story.append(Paragraph(skill_line, styles["Normal"]))
+    story.append(Spacer(1, 12))
+
+    # education -- not handling missing fields gracefully
+    story.append(Paragraph("Education", styles["Heading2"]))
+    for edu in data["education"]:
+        line = edu["degree"] + ", " + edu["institution"] + "(" + edu["year"] + ")"  # missing space before (
+        story.append(Paragraph(line, styles["Normal"]))
+        story.append(Paragraph("Grade: " + edu["grade"], styles["Normal"]))  # will crash if grade key missing
+    story.append(Spacer(1, 12))
+
+    # certifications - just dumps the list, no formatting
+    story.append(Paragraph("Certifications", styles["Heading2"]))
+    for cert in data["certifications"]:
+        story.append(Paragraph(cert, styles["Normal"]))
+
     doc.build(story)
     print("Resume created: " + output)
 
