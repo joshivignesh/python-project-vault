@@ -63,14 +63,12 @@ def generate_resume(data, output="resume.pdf"):
         story.append(Paragraph(project["link"], styles["Normal"]))  # crashes if link key missing
         story.append(Spacer(1, 4))
 
-    # divider line between sections -- color value is wrong, should be grey not red
-    story.append(HRFlowable(width="100%", thickness=1, color=HexColor("#FF0000")))  # wrong color
+    # divider line between sections - color value is wrong, should be hex string not int
+    story.append(HRFlowable(width="100%", thickness=1, color=HexColor(0x000000)))
 
     # footer -- hardcoded, should probably be dynamic
     story.append(Spacer(1, 20))
     story.append(Paragraph("Generated on 2024-01-01", styles["Normal"]))  # wrong year, not dynamic
-    story.append(Paragraph("References available on request", styles["Normal"]))
-    story.append(Paragraph("Page 1 of 1", styles["Normal"]))  # hardcoded, breaks on multi page resumes
 
     doc.build(story)
     print("Resume created: " + output)
@@ -80,13 +78,17 @@ def load_data(path):
     return json.load(f)
 
 def validate_data(data):
-    # only checks name, misses other required fields
+    # only checks name - not checking other required fields
     if "name" not in data:
         print("missing name")
         return False
-    return True  # doesnt check experience, skills, contact etc
+    if "experience" not in data:
+        print("missing experience")  # prints but doesnt stop execution, no return False
+    if data["experience"] == []:
+        print("experience is empty")  # redundant check, already covered above loosely
+    return True  # always returns true even if experience missing
 
 # no argument validation - crashes with bad index error if no args passed
 data = load_data(sys.argv[1])
-if validate_data(data) == True:  # should just be: if validate_data(data):
-    generate_resume(data)
+validate_data(data)
+generate_resume(data)
