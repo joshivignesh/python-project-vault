@@ -1,0 +1,24 @@
+{
+  "name": "Vignesh Joshi",
+  "title": "Senior Software Engineer",
+  "contact": {
+    "email": "joshi.vignesh@gmail.com",
+    "phone": "+91 98765 43210",
+    "location": "Bangalore, India",
+    "github": "github.com/joshivignesh",
+    "linkedin": "linkedin.com/in/joshivignesh"
+  },
+  "summary": "Software engineer with 5+ years of experience building scalable backend systems and cloud-native applications.",
+  "experience": [
+    {
+      "role": "Senior Software Engineer",
+      "company": "Acme Corp",
+      "location": "Bangalore, India",
+      "duration": "Jan 2022 – Present",
+      "points": [
+        "Led migration of monolithic services to microservices on Kubernetes",
+        "Built REST APIs in Python serving 2M+ requests per day"
+      ]
+    }
+  ]
+}
