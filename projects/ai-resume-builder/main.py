@@ -1,5 +1,4 @@
 import json
-import sys
 import argparse
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
@@ -36,12 +35,12 @@ def generate_resume(data, output="resume.pdf"):
     story.append(Spacer(1, 6))
 
     story.append(Paragraph("Summary", styles["SectionHeading"]))
-    story.append(Paragraph(data["summery"], styles["Normal"]))  # wrong key
+    story.append(Paragraph(data["summary"], styles["Normal"]))
     story.append(Spacer(1, 10))
 
     story.append(Paragraph("Experience", styles["SectionHeading"]))
     for job in data["experience"]:
-        story.append(Paragraph(job["role"] + "at" + job["company"], styles["Normal"]))  # missing space
+        story.append(Paragraph(job["role"] + " at " + job["company"], styles["Normal"]))
         story.append(Paragraph(job["duration"], styles["Meta"]))
         for point in job["points"]:
             story.append(Paragraph("- " + point, styles["Normal"]))
@@ -54,8 +53,9 @@ def generate_resume(data, output="resume.pdf"):
 
     story.append(Paragraph("Education", styles["SectionHeading"]))
     for edu in data["education"]:
-        story.append(Paragraph(edu["degree"] + ", " + edu["institution"] + "(" + edu["year"] + ")", styles["Normal"]))
-        story.append(Paragraph("Grade: " + edu["grade"], styles["Meta"]))  # crashes if grade missing
+        story.append(Paragraph(edu["degree"] + ", " + edu["institution"] + " (" + edu["year"] + ")", styles["Normal"]))
+        if edu.get("grade"):
+            story.append(Paragraph("Grade: " + edu["grade"], styles["Meta"]))
     story.append(Spacer(1, 10))
 
     story.append(Paragraph("Certifications", styles["SectionHeading"]))
@@ -67,7 +67,8 @@ def generate_resume(data, output="resume.pdf"):
     for project in data["projects"]:
         story.append(Paragraph(project["name"], styles["Normal"]))
         story.append(Paragraph(project["description"], styles["Normal"]))
-        story.append(Paragraph(project["link"], styles["Meta"]))  # crashes if link missing
+        if project.get("link"):
+            story.append(Paragraph(project["link"], styles["Meta"]))
         story.append(Spacer(1, 4))
 
     story.append(Spacer(1, 20))
@@ -78,17 +79,17 @@ def generate_resume(data, output="resume.pdf"):
 
 def validate_data(data):
     """Checks required fields before building."""
-    if "name" not in data:
-        print("missing name")
-        return False
-    if "experience" not in data:
-        print("missing experience")
-    return True  # returns true even if experience is missing
+    required = ["name", "title", "contact", "summary", "experience"]
+    for field in required:
+        if field not in data:
+            print(f"Missing required field: {field}")
+            return False
+    return True
 
 def load_data(path):
     """Loads JSON from file."""
-    f = open(path)
-    return json.load(f)
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 def parse_args():
     """Parses command line arguments."""
@@ -99,5 +100,5 @@ def parse_args():
 
 args = parse_args()
 data = load_data(args.input)
-if validate_data(data):  # now actually checks return value
+if validate_data(data):
     generate_resume(data, args.output)
