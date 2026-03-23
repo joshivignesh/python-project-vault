@@ -1,5 +1,7 @@
 import json
 import sys
+import argparse
+from datetime import datetime
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -69,7 +71,7 @@ def generate_resume(data, output="resume.pdf"):
         story.append(Spacer(1, 4))
 
     story.append(Spacer(1, 20))
-    story.append(Paragraph("Generated on 2024-01-01", styles["Meta"]))  # hardcoded date
+    story.append(Paragraph("Generated on " + datetime.now().strftime("%d-%m-%Y"), styles["Meta"]))
 
     doc.build(story)
     print("Resume created: " + output)
@@ -88,6 +90,14 @@ def load_data(path):
     f = open(path)
     return json.load(f)
 
-data = load_data(sys.argv[1])
-validate_data(data)
-generate_resume(data)
+def parse_args():
+    """Parses command line arguments."""
+    parser = argparse.ArgumentParser(description="Generate a PDF resume from JSON")
+    parser.add_argument("--input", "-i", required=True, help="Path to resume JSON file")
+    parser.add_argument("--output", "-o", default="resume.pdf", help="Output PDF filename")
+    return parser.parse_args()
+
+args = parse_args()
+data = load_data(args.input)
+if validate_data(data):  # now actually checks return value
+    generate_resume(data, args.output)
